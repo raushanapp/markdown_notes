@@ -6,6 +6,8 @@ import { NewNotes } from "./Components/NewNotes";
 import { useMemo } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { NoteList } from "./Components/NoteList";
+import { NoteLayout } from "./Components/NoteLayout";
+import { Note } from "./Components/Note";
 export type Note = {
   id: string;
 } & NoteData;
@@ -55,7 +57,10 @@ function App() {
   return (
     <Container className="my-4">
       <Routes>
-        <Route path="/" element={<NoteList notes={notesWithTags} availableTags={tags} />} />
+        <Route
+          path="/"
+          element={<NoteList notes={notesWithTags} availableTags={tags} />}
+        />
         <Route
           path="/new"
           element={
@@ -66,6 +71,9 @@ function App() {
             />
           }
         />
+        <Route path="/:id" element={<NoteLayout notes={notesWithTags} />} >
+          <Route index element={<Note/>} />
+        </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Container>
