@@ -8,6 +8,7 @@ import { v4 as uuidV4 } from "uuid";
 import { NoteList } from "./Components/NoteList";
 import { NoteLayout } from "./Components/NoteLayout";
 import { Note } from "./Components/Note";
+import { EditNotes } from "./Components/EditNote";
 export type Note = {
   id: string;
 } & NoteData;
@@ -71,8 +72,18 @@ function App() {
             />
           }
         />
-        <Route path="/:id" element={<NoteLayout notes={notesWithTags} />} >
-          <Route index element={<Note/>} />
+        <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
+          <Route index element={<Note />} />
+          <Route
+            path="/edit"
+            element={
+              <EditNotes
+                onSubmit={onCreateNote}
+                onAddTag={addTag}
+                availableTags={tags}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
