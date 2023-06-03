@@ -52,6 +52,23 @@ function App() {
       ];
     });
   };
+
+  const onUpdateNote = (id: string, { tags, ...data }: NoteData) => {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note) => {
+        if (note.id === id) {
+          return {...note, ...data, tagIds: tags.map((tag) => tag.id) };
+        } else {
+          return note;
+        }
+      });
+    });
+  };
+  const onDeleteNote = (id: string) => {
+    setNotes(prevNotes => {
+      return prevNotes.filter((note)=>note.id !==id)
+    })
+  }
   const addTag = (tag: Tag) => {
     setTags((prev) => [...prev, tag]);
   };
@@ -73,12 +90,12 @@ function App() {
           }
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<Note />} />
+          <Route index element={<Note onDelete={onDeleteNote} />} />
           <Route
-            path="/edit"
+            path="edit"
             element={
               <EditNotes
-                onSubmit={onCreateNote}
+                onSubmit={onUpdateNote}
                 onAddTag={addTag}
                 availableTags={tags}
               />
